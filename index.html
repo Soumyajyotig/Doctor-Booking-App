@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Appointment Booking - Admin Reminder System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Patient Booking Section -->
+        <div class="patient-section">
+            <div class="header">
+                <h1>📱 Doctor Booking</h1>
+                <p>Book your appointment via WhatsApp</p>
+            </div>
+            <div class="chat-container" id="chatContainer">
+                <div class="message bot">
+                    <div class="message-content">
+                        👋 Welcome! I'm your appointment assistant. Let me help you book with a doctor.
+                    </div>
+                </div>
+                <div class="message bot">
+                    <div class="message-content">
+                        Please select a doctor:
+                    </div>
+                </div>
+            </div>
+            <div class="input-container" id="inputContainer">
+                <div id="interactionArea"></div>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard Section -->
+        <div class="admin-section">
+            <div class="admin-header">
+                <h2>👨‍⚕️ Admin Dashboard</h2>
+                <p>Manage Appointments & Send Reminders</p>
+            </div>
+            <div class="admin-content">
+                <div class="stats">
+                    <div class="stat-card">
+                        <h3 id="totalAppointments">0</h3>
+                        <p>Total Bookings</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="calledCount">0</h3>
+                        <p>Called</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="reminderCount">0</h3>
+                        <p>Reminders Sent</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="cancelledCount">0</h3>
+                        <p>Cancelled</p>
+                    </div>
+                </div>
+                <div class="appointment-list" id="appointmentList">
+                    <div class="empty-state">
+                        <p>No appointments yet. Bookings will appear here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
