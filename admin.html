@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Admin Dashboard - Enhanced UI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Login Page - Similar to Patient Page */
+        .login-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 90vh;
+        }
+
+        .login-box {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .hint {
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 6px;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .back-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Dashboard Page - Enhanced UI */
+        .dashboard-page {
+            display: none;
+        }
+
+        .dashboard-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .header-content h1 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .header-content p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #c92a2a 100%);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Stats Cards - Similar Style */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+
+        .stat-card h3 {
+            font-size: 36px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .stat-card p {
+            color: #666;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Controls Section - Card Style */
+        .controls-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .controls-section h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .control-card {
+            background: #f5f5f5;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .control-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+        }
+
+        .control-card h3 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .control-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .control-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
+        }
+
+        .control-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .control-btn.cancel-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #c92a2a 100%);
+        }
+
+        .doctors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .doctor-leave-btn {
+            padding: 12px;
+            background: white;
+            border: 2px solid #25D366;
+            color: #25D366;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .doctor-leave-btn:hover {
+            background: #25D366;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .doctor-leave-btn.on-leave {
+            background: #ff6b6b;
+            border-color: #ff6b6b;
+            color: white;
+        }
+
+        /* Per-Doctor Stats */
+        .per-doctor-stats-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .per-doctor-stats-section h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        #perDoctorStatsContainer {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .per-doctor-card {
+            background: #f9f9f9;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .per-doctor-card:hover {
+            border-color: #667eea;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+        }
+
+        .doctor-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .doctor-specialty {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .doctor-time {
+            font-size: 12px;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .doctor-stats {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .stat-item {
+            flex: 1;
+            text-align: center;
+            background: white;
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 11px;
+            color: #999;
+            margin-bottom: 2px;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 18px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        /* Appointments Section */
+        .appointments-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .appointments-section h2 {
+            font-size: 24px;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .appointment-card {
+            background: #f9f9f9;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .appointment-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+        }
+
+        .serial-badge {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .appointment-info p {
+            margin: 8px 0;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .appointment-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            flex: 1;
+            min-width: 100px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .call-btn {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .call-btn:hover {
+            background: #45a049;
+            transform: scale(1.05);
+        }
+
+        .complete-btn {
+            background: linear-gradient(135deg, #4CAF50 0%, #2e7d32 100%);
+            color: white;
+        }
+
+        .complete-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .cancel-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #c92a2a 100%);
+            color: white;
+        }
+
+        .cancel-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .stats-section {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            #perDoctorStatsContainer {
+                grid-template-columns: 1fr;
+            }
+
+            .appointment-actions {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Login Page -->
+        <div class="login-page" id="loginPage">
+            <div class="login-box">
+                <div class="login-header">
+                    <h1>🔐 Admin Login</h1>
+                    <p>Enter password to access dashboard</p>
+                </div>
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="adminPassword">Admin Password:</label>
+                        <input type="password" id="adminPassword" placeholder="Enter admin password" autofocus>
+                    </div>
+                    <button type="submit" class="login-btn">Login</button>
+                </form>
+                <p class="hint">💡 Default password: <strong>admin123</strong></p>
+                <p class="back-link"><a href="index.html">← Back to Booking</a></p>
+            </div>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div class="dashboard-page" id="dashboardPage">
+            <div class="dashboard-header">
+                <div class="header-content">
+                    <h1>👨‍⚕️ Admin Control Panel</h1>
+                    <p>Manage All Appointments & Doctor Schedules</p>
+                </div>
+                <button class="logout-btn" onclick="handleLogout()">🚪 Logout</button>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-section">
+                <div class="stat-card">
+                    <h3 id="totalAppointments">0</h3>
+                    <p>Total Bookings</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="calledCount">0</h3>
+                    <p>Called</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="completedCount">0</h3>
+                    <p>Completed</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="cancelledCount">0</h3>
+                    <p>Cancelled</p>
+                </div>
+            </div>
+
+            <!-- Doctor Controls -->
+            <div class="controls-section">
+                <h2>⚙️ Doctor Controls</h2>
+                <div class="control-card">
+                    <h3>📢 Send Global Notification</h3>
+                    <input type="text" id="notificationText" placeholder="e.g., Dr. XYZ will not be available today" class="control-input">
+                    <button class="control-btn" onclick="alert('Notification sent!')">Send Notification</button>
+                    <button class="control-btn cancel-btn" onclick="document.getElementById('notificationText').value=''">Clear</button>
+                </div>
+                <div class="control-card">
+                    <h3>🏥 Mark Doctor on Leave</h3>
+                    <div class="doctors-grid" id="doctorsLeaveGrid">
+                        <!-- Doctors will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Per-Doctor Statistics -->
+            <div class="per-doctor-stats-section">
+                <h2>📊 Per-Doctor Statistics</h2>
+                <div id="perDoctorStatsContainer">
+                    <!-- Stats cards will be populated here -->
+                </div>
+            </div>
+
+            <!-- Appointments List -->
+            <div class="appointments-section">
+                <h2>📋 Today's Appointments</h2>
+                <div id="appointmentList">
+                    <div class="empty-state">
+                        <p>No appointments yet. Patient bookings will appear here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ═══════════════════════════════════════════════════════════
+        // 🔐 CHANGE YOUR PASSWORD HERE 👇
+        // ═══════════════════════════════════════════════════════════
+        // Simply replace 'admin123' with your desired password
+        // Examples: 'MyClinic2025', 'SecurePass!123', 'DrAdmin@2024'
+        const ADMIN_PASSWORD = 'admin123';
+        // ═══════════════════════════════════════════════════════════
+
+        // Sample doctors data
+        const doctors = [
+            {id:1, name:"Dr. Anup Biswas", specialty:"Uro-Surgeon", time:"10:00 AM"},
+            {id:2, name:"Dr. Washim Mollah", specialty:"Endo-Urologist", time:"11:30 AM"},
+            {id:3, name:"Dr. Prodip Sarkar", specialty:"Dermatologist", time:"2:00 PM"},
+            {id:4, name:"Dr. Reshmi Thakur", specialty:"Gynaecologist", time:"3:00 PM"},
+            {id:5, name:"Dr. Debabrata Som", specialty:"Orthopaedic", time:"11:00 AM"},
+            {id:6, name:"Dr. Subhasis Chatterjee", specialty:"Neurologist", time:"10:30 AM"},
+            {id:7, name:"Dr. Arkapratim Chowdhury", specialty:"Physician", time:"9:30 AM"},
+            {id:8, name:"Dr. Avishek Mallik", specialty:"Orthopedics", time:"1:00 PM"},
+            {id:9, name:"Dr. Soumen Saha", specialty:"DTHI", time:"12:00 PM"},
+            {id:10, name:"Dr. Dipon Maschatak", specialty:"Rheumatologist", time:"4:00 PM"},
+            {id:11, name:"Dr. Santosh Ghaley", specialty:"Cardiologist", time:"8:30 AM"},
+            {id:12, name:"Dr. Akash Jaiswal", specialty:"Gastroenterology", time:"9:00 AM"}
+        ];
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const password = document.getElementById('adminPassword').value.trim();
+            if (password === ADMIN_PASSWORD) {
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('dashboardPage').style.display = 'block';
+                initializeDashboard();
+            } else {
+                alert('❌ Incorrect password. Try again.');
+                document.getElementById('adminPassword').value = '';
+            }
+        }
+
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                document.getElementById('dashboardPage').style.display = 'none';
+                document.getElementById('loginPage').style.display = 'flex';
+                document.getElementById('adminPassword').value = '';
+            }
+        }
+
+        function initializeDashboard() {
+            // Populate doctor leave grid
+            const grid = document.getElementById('doctorsLeaveGrid');
+            grid.innerHTML = '';
+            doctors.forEach(doctor => {
+                const btn = document.createElement('button');
+                btn.className = 'doctor-leave-btn';
+                btn.textContent = `✅ ${doctor.name.split(' ')[1]}`;
+                btn.onclick = () => {
+                    btn.classList.toggle('on-leave');
+                    btn.textContent = btn.classList.contains('on-leave') 
+                        ? `🚫 ${doctor.name.split(' ')[1]}`
+                        : `✅ ${doctor.name.split(' ')[1]}`;
+                };
+                grid.appendChild(btn);
+            });
+
+            // Populate per-doctor stats
+            const statsContainer = document.getElementById('perDoctorStatsContainer');
+            statsContainer.innerHTML = '';
+            doctors.forEach(doctor => {
+                const card = document.createElement('div');
+                card.className = 'per-doctor-card';
+                card.innerHTML = `
+                    <div class="doctor-name">${doctor.name}</div>
+                    <div class="doctor-specialty">${doctor.specialty}</div>
+                    <div class="doctor-time">⏰ ${doctor.time}</div>
+                    <div class="doctor-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Total</span>
+                            <span class="stat-value">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Seen</span>
+                            <span class="stat-value">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Cancelled</span>
+                            <span class="stat-value">0</span>
+                        </div>
+                    </div>
+                `;
+                statsContainer.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>
